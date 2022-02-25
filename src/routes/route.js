@@ -62,12 +62,31 @@ router.post("/test-post-3", function(req, res) {
 })
 
 
-
+let players = [];
 router.post("/test-post-4", function(req, res) {
     let arr= [ 12, "functionup"]
     let ele= req.body.element
     arr.push(ele)
     res.send(  { msg: arr , status: true }  )
 })
+
+
+
+router.post('/player',function(req,res){
+    let player = req.body
+    players.push(player)
+    
+    let playerName = player.name
+    for(let i = 0;i<players.length;i++){
+        if(players[i].name = playerName){
+            res.send('palyer already exist')
+        }else{
+            res.send(players)
+        }
+    }
+    
+});
+
+
 
 module.exports = router;
