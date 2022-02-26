@@ -41,7 +41,7 @@ router.post('/myquery',function(req,res){
     for(let i = 0;i<persons.length;i++){
         if(persons[i].age>votingAge){
             persons[i].votingStatus = true;
-            voterList.push(persons[i].name)
+            voterList.push(persons[i])
         }
     }
     res.send([voterList])
