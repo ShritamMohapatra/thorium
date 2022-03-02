@@ -1,59 +1,42 @@
-const { count } = require("console")
-const BookModel= require("../models/bookModel")
-
-const createBook= async function (req, res) {
-    let data= req.body
-
-    let savedData= await BookModel.create(data)
-    res.send({msg: savedData})
+const BooksModel = require('../models/BookModel.js')
+const createBooks = async function (req, res) {
+    var data = req.body
+    let savedData = await BooksModel.create(data)
+    res.send({ msg: savedData })
+    
 }
-
-const getBooksData= async function (req, res) {
-    let allBooks= await BookModel.find( {authorName : "HO" } )
-    console.log(allBooks)
-    if (allBooks.length > 0 )  res.send({msg: allBooks, condition: true})
-    else res.send({msg: "No books found" , condition: false})
+const getBooksData = async function (req, res) {
+    let allBooks = await BooksModel.find()
+    res.send({msg: allBooks})
 }
-
-
-const updateBooks= async function (req, res) {
-    let data = req.body // {sales: "1200"}
-    // let allBooks= await BookModel.updateMany( 
-    //     { author: "SK"} , //condition
-    //     { $set: data } //update in data
-    //  )
-    let allBooks= await BookModel.findOneAndUpdate( 
-        { authorName: "ABC"} , //condition
-        { $set: data }, //update in data
-        { new: true , upsert: true} ,// new: true - will give you back the updated document // Upsert: it finds and updates the document but if the doc is not found(i.e it does not exist) then it creates a new document i.e UPdate Or inSERT  
-     )
-     
-     res.send( { msg: allBooks})
+const bookList = async function (req, res) {
+    let allBooks = await BooksModel.find().select({ bookName:1, authorName:1})
+    res.send({msg: allBooks})
 }
-
-const deleteBooks= async function (req, res) {
-    // let data = req.body 
-    let allBooks= await BookModel.updateMany( 
-        { authorName: "FI"} , //condition
-        { $set: {isDeleted: true} }, //update in data
-        { new: true } ,
-     )
-     
-     res.send( { msg: allBooks})
+const getBooksInYear = async function (req, res) {
+    let BooksInYear = await BooksModel.find( { year: req.body.year } )
+    res.send({msg: BooksInYear})
 }
+const getParticularBooks = async function (req, res) {
+    let ParticularBooks = await BooksModel.find(req.body)
+    res.send({ msg: ParticularBooks })
+} 
+
+const getXINRBooks = async function (req, res) {
+    let allBooks = await BooksModel.find({ 'prices.indianPrice' : {$in: ["500 INR", "270 INR", "500 INR"] } } )
+    res.send({msg: allBooks})
+}
+ const getRandomBooks  = async function (req, res) {
+    let allBooks = await BooksModel.find({ $or: [ {stockAvailable: true} , { totalPages: {$gt: 500} }   ] } )
+    res.send({msg: allBooks})
+} 
+  
 
 
-
-
-// CRUD OPERATIONS:
-// CREATE
-// READ
-// UPDATE
-// DELETE
-
-
-
-module.exports.createBook= createBook
-module.exports.getBooksData= getBooksData
-module.exports.updateBooks= updateBooks
-module.exports.deleteBooks= deleteBooks
+module.exports.createBooks = createBooks
+module.exports.getBooksData = getBooksData
+module.exports.bookList= bookList
+module.exports.getBooksInYear = getBooksInYear
+module.exports.getParticularBooks = getParticularBooks
+module.exports.getXINRBooks = getXINRBooks
+module.exports.getRandomBooks = getRandomBooks
