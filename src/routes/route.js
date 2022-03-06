@@ -5,6 +5,7 @@ const UserController= require("../controllers/userController")
 const BookController= require("../controllers/bookController")
 
 router.get("/test-me", function (req, res) {
+    console.log("After middleWare hit")
     res.send("My first ever api!")
 })
 
