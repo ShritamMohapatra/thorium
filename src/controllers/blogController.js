@@ -1,5 +1,6 @@
-const authorModel = require("../models/authorModel")
-const blogModel = require("../models/blogModel")
+const jwt = require('jsonwebtoken')
+const authorModel = require("../models/authorModel.js")
+const blogModel = require("../models/blogModel.js")
 
 const createBlog = async function(req,res){
     try{
@@ -8,7 +9,7 @@ const createBlog = async function(req,res){
         let authorId = data.authorId
         let authorReq = await authorModel.findById(authorId)
         if(authorReq){
-            let createBlog = await blogsModel.create(data)
+            let createBlog = await blogModel.create(data)
             res.status(201),send({status:true,data:createBlog})
         }
         else{
@@ -86,14 +87,6 @@ const deleteByParams = async function(req,res){
     
 }
 
-const login = async function(req,res){
-    try{
-
-    }
-    catch(err){
-        res.status(500).send({msg:"Server Error",error:err.message})
-    }
-}
 
 module.exports.createBlog = createBlog
 module.exports.getBlogs = getBlogs
