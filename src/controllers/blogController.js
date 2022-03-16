@@ -10,7 +10,7 @@ const createBlog = async function(req,res){
         let authorReq = await authorModel.findById(authorId)
         if(authorReq){
             let createBlog = await blogModel.create(data)
-            res.status(201),send({status:true,data:createBlog})
+            res.status(201).send({status:true,data:createBlog})
         }
         else{
             res.status(400).send({status:false,msg:`${authorId} is not Available,Enter valid Author Id` })

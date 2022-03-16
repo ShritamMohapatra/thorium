@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken")
 const authorModel = require("../models/authorModel");
 // const uModel = require("../models/authorModel");
 
@@ -20,10 +21,10 @@ const createUser = async function (req, res) {
 
 const login = async function(req,res){
   try{
-      let authorId = req.body.emailId
+      let authorId = req.body.email
       let password = req.body.password
 
-      let author = await authorModel.findOne({emailId:authorId,password:password})
+      let author = await authorModel.findOne({email:authorId,password:password})
       if(!author){
           res.status(401).send({status:false,msg:"Invalid detalis"})
       }
@@ -34,8 +35,8 @@ const login = async function(req,res){
               project: "project-1"
           },
           "roomNo-15"
-      )
-      res.setHeaders("x-api-key",token)
+      );
+      res.setHeader("x-api-key",token)
       res.send({status:true,data:token})
 
   }

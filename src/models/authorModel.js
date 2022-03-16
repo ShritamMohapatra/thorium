@@ -15,7 +15,7 @@ const autherSchema = new mongoose.Schema({
         enum:["Mr","Mrs","Miss"],
         required:true
     },
-    email:{type:mongoose.SchemaTypes.email,
+    email:{type:mongoose.SchemaTypes.Email,
         required:true,
         unique:true
     },
